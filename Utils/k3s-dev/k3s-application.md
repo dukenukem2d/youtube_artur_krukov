@@ -11,7 +11,7 @@ kubectl apply -f 00-priorityclass.yaml
 ### Cert-manager
 
 ```shell
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.2/cert-manager.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.18.1/cert-manager.yaml
 ```
 
 ## CA и ClusterIssuer
@@ -21,7 +21,7 @@ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/
 ```shell
 kubectl apply -f CA/ca.yaml
 ```
-
+### Warning: spec.privateKey.rotationPolicy: In cert-manager >= v1.18.0, the default value changed from `Never` to `Always`.
 Импортируем сертификат CA в локальный файл.
 
 ```shell
@@ -62,6 +62,12 @@ update-ca-trust force-enable
 update-ca-trust extract
 ```
 
+### Добавление сертификата CA в Alt Linux
+
+```shell
+# cp ca.crt /etc/pki/ca-trust/source/anchors/ && update-ca-trust
+```
+
 ## Ingress controller
 
 Устанавливаем чарт. Можно при помощи встроенного в k3s helm.
@@ -74,7 +80,7 @@ kubectl apply -f 01-ingress-controller.yaml
 
 ```shell
 kubectl -n ingress-nginx get all
-curl http://192.168.218.189
+curl http://192.168.52.2
 ```
 
 ## ArgoCD
@@ -256,7 +262,7 @@ stringData:
   runner-registration-token: ""
   # тут подставляем полученный в WEB интерфейсе токен
   runner-token: "glrt-qZeoBLU_jZ3yDsFtdT7k"
-  
+
   # S3 cache parameters
   accesskey: "admin"
   secretkey: "password"

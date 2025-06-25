@@ -5,9 +5,10 @@ metadata:
   name: redis
   namespace: redis
 spec:
-  repo: 'https://charts.bitnami.com/bitnami'
+  # repo: "https://charts.bitnami.com/bitnami"
+  repo: "https://raw.githubusercontent.com/bitnami/charts/index/bitnami"
   chart: redis
-  version: 18.12.1
+  version: 21.2.5
   targetNamespace: redis
   valuesContent: |-
     global:

@@ -18,14 +18,14 @@ spec:
   duration: 87600h # 10y
   subject:
     organizations:
-      - "Artur's dev"
+      - "Alex's dev"
     organizationalUnits:
-      - "Home lab"
+      - "k3s lab"
     localities:
-      - "Moscow"
+      - "Ramenskoye"
     countries:
       - "RU"
-  commonName: "Artur home CA"
+  commonName: "Alex home CA"
   secretName: dev-ca
   privateKey:
     algorithm: RSA

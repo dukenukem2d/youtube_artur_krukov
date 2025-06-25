@@ -7,7 +7,8 @@ metadata:
 spec:
   repo: https://argoproj.github.io/argo-helm
   chart: argo-cd
-  version: 6.0.6
+  # version: 6.0.6
+  version: 8.1.1
   targetNamespace: argo-cd
   valuesContent: |-
     crds:
@@ -34,11 +35,11 @@ spec:
       #       ...
       #       -----END CERTIFICATE-----
 
-      
+
       repositories:
         artur-repo:
-          url: https://github.com/BigKAA/youtube
-          name: bigkaa
+          url: https://github.com/dukenukem2d/youtube_artur_krukov
+          name: dukenukem2d
           type: git
 
       secret:
@@ -57,7 +58,7 @@ spec:
       replicas: 1
       certificate:
         enabled: true
-        domain: argocd-dev.kryukov.local
+        domain: argocd-dev.k3s.local
         renewBefore: 360h
         duration: 9125h
         issuer:
@@ -77,11 +78,11 @@ spec:
         annotations:
           nginx.ingress.kubernetes.io/ssl-redirect: "false"
         ingressClassName: "system-ingress"
-        hostname: argocd-dev.kryukov.local
+        hostname: argocd-dev.k3s.local
         path: /
         pathType: Prefix
         tls: true
-    
+
     # В последней версии (2.13.1) исправили добавление сертификатов СА
     # Смотрите выше пример configs.tls.certificates
     repoServer:
@@ -93,4 +94,3 @@ spec:
       - mountPath: /etc/ssl/certs/dev-ca.pem
         name: dev-ca-certs
         subPath: dev-ca.pem
-      
