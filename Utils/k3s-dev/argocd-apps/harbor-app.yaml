@@ -8,14 +8,15 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://charts.bitnami.com/bitnami'
+    repoURL: "https://raw.githubusercontent.com/bitnami/charts/index/bitnami"
     chart: harbor
-    targetRevision: 19.6.0
+    # targetRevision: 19.6.0
+    targetRevision: 26.7.7
     helm:
       values: |
         # initial admin password
         adminPassword: "password"
-        externalURL: https://registry.kryukov.local
+        externalURL: https://registry.k3s.local
         logLevel: info
         ipFamily:
           ipv6:
@@ -24,17 +25,17 @@ spec:
         ingress:
           core:
             ingressClassName: "system-ingress"
-            hostname: registry.kryukov.local
+            hostname: registry.k3s.local
             annotations:
               ingress.kubernetes.io/ssl-redirect: "true"
               ingress.kubernetes.io/proxy-body-size: "0"
               nginx.ingress.kubernetes.io/ssl-redirect: "true"
               nginx.ingress.kubernetes.io/proxy-body-size: "0"
               cert-manager.io/cluster-issuer: dev-ca-issuer
-              cert-manager.io/common-name: registry.kryukov.local
+              cert-manager.io/common-name: registry.k3s.local
               cert-manager.io/subject-organizations: "home dev lab"
               cert-manager.io/subject-countries: "RU"
-              cert-manager.io/subject-localities: "Moscow"
+              cert-manager.io/subject-localities: "Ramenskoye"
               cert-manager.io/duration: "9125h"
               cert-manager.io/renew-before: "360h"
               cert-manager.io/usages: "server auth"
@@ -50,7 +51,7 @@ spec:
             registry:
               accessModes:
                 - ReadWriteOnce
-              size: 30Gi
+              size: 10Gi
             jobservice:
               accessModes:
                 - ReadWriteOnce
@@ -86,7 +87,7 @@ spec:
         externalDatabase:
           host: postgres-np.psql.svc
           port: 5432
-          user: artur
+          user: duke
           password: "password"
           sslmode: disable
           coreDatabase: "harbor"
@@ -101,7 +102,7 @@ spec:
           registryDatabaseIndex: "2"
           trivyAdapterDatabaseIndex: "5"
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
     namespace: harbor
   syncPolicy:
     automated:
