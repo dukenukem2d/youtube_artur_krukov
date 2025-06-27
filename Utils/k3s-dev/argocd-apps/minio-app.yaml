@@ -8,9 +8,10 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://charts.bitnami.com/bitnami'
+    # repoURL: 'https://charts.bitnami.com/bitnami'
+    repoURL: "https://raw.githubusercontent.com/bitnami/charts/index/bitnami"
     chart: minio
-    targetRevision: 13.4.5
+    targetRevision: 17.0.9
     helm:
       parameters:
         - name: mode
@@ -33,9 +34,47 @@ spec:
           value: 4Gi
         - name: volumePermissions.enabled
           value: "true"
+        - name: console.extraContainerPorts
+          value: "[9443]"
+        - name: console.resources
+          value: |
+            requests:
+              cpu: 0.4
+              memory: 256Mi
+            limits:
+              cpu: 0.8
+              memory: 512Mi
+        - name: console.ingress.enabled
+          value: "true"
+        - name: console.ingress.ingressClassName
+          value: "system-ingress"
+        - name: console.ingress.hostname
+          value: "minio.k3s.local"
+        - name: console.ingress.path
+          value: "/"
+        - name: console.ingress.pathType
+          value: "Prefix"
+        - name: console.ingress.tls
+          value: "true"
+        - name: console.ingress.tlsSecretName
+          value: "minio-console-tls"
+        - name: console.ingress.annotations
+          value: |
+            cert-manager.io/cluster-issuer: "dev-ca-issuer"
+            cert-manager.io/common-name: "minio.k3s.local"
+            cert-manager.io/subject-organizations: "home dev lab"
+            cert-manager.io/subject-countries: "RU"
+            cert-manager.io/subject-localities: "Ramenskoye"
+            cert-manager.io/duration: "9125h"
+            cert-manager.io/renew-before: "360h"
+            cert-manager.io/usages: "server auth"
+            cert-manager.io/private-key-algorithm: "RSA"
+            cert-manager.io/private-key-encoding: "PKCS8"
+            cert-manager.io/private-key-size: "4096"
+            cert-manager.io/private-key-rotation-policy: "Always"
 
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
     namespace: minio
   syncPolicy:
     automated:
